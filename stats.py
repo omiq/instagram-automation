@@ -69,8 +69,9 @@ if __name__ == '__main__':
     with conn:
 
         for match in matches:
+            pprint(list(match.values()))
             sql = ''' INSERT INTO stats(rowid,event_id,Date,Event,Placing,Faction,GA,Use,GamesPlayed,NumberofWins,Player,FactionKey)
-                      VALUES(?,?,?,?,?,?,?,?,?,?,?,?) '''
+                                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?) '''
             cur = conn.cursor()
-            cur.execute(sql, match)
+            cur.execute(sql, list(match.values()))
 
