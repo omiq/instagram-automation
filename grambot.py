@@ -1,7 +1,17 @@
 import sys
+import gspread
 from pprint import pprint
 from selenium import webdriver
+from oauth2client.service_account import ServiceAccountCredentials
 from time import sleep
+
+
+class GSheet:
+    def __init__(self, creds, sheet):
+        self.scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
+        self.creds = ServiceAccountCredentials.from_json_keyfile_name(creds, self.scope)
+        client = gspread.authorize(creds)
+        self.sheet = client.open(sheet).sheet1
 
 
 class GramBot:
@@ -80,8 +90,9 @@ class GramBot:
         self.driver.quit()
 
 
-
 if __name__ == '__main__':
+
+    mysheet = GSheet("private.json", "Geekahol Followers")
 
     if len(sys.argv) > 1:
 
