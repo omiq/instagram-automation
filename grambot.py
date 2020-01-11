@@ -1,10 +1,10 @@
-from credentials import password
-from credentials import username
+import sys
 from pprint import pprint
 from selenium import webdriver
 from time import sleep
 
-class Insta_Bot:
+
+class GramBot:
     def __init__(self, username, pw):
         self.driver = webdriver.Chrome()
         self.username = username
@@ -24,7 +24,7 @@ class Insta_Bot:
             .click()
         sleep(2)
 
-    def get_unfollowers(self):
+    def get_unfollowed(self):
         self.driver.find_element_by_xpath("//a[contains(@href,'/{}')]".format(self.username))\
             .click()
         sleep(2)
@@ -80,10 +80,24 @@ class Insta_Bot:
         self.driver.quit()
 
 
-my_bot = Insta_Bot(username, password)
-#my_bot.get_unfollowers()
-print(my_bot.get_follower_count())
-my_bot.follow_suggested()
+
+if __name__ == '__main__':
+
+    if len(sys.argv) > 1:
+
+        username = sys.argv[1]
+        password = sys.argv[2]
 
 
-my_bot.close_browser()
+        bot = GramBot(username, password)
+
+        #bot.get_unfollowed()
+
+        print(bot.get_follower_count())
+        bot.follow_suggested()
+
+        bot.close_browser()
+
+    else:
+
+        print("Specify username and password")
