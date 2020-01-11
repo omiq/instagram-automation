@@ -1,17 +1,19 @@
 import sys
 import gspread
+from datetime import datetime
 from pprint import pprint
 from selenium import webdriver
 from oauth2client.service_account import ServiceAccountCredentials
 from time import sleep
 
 
+
 class GSheet:
     def __init__(self, creds, sheet):
         self.scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
         self.creds = ServiceAccountCredentials.from_json_keyfile_name(creds, self.scope)
-        client = gspread.authorize(creds)
-        self.sheet = client.open(sheet).sheet1
+        self.client = gspread.authorize(self.creds)
+        self.sheet = self.client.open(sheet).sheet1
 
 
 class GramBot:
@@ -92,8 +94,6 @@ class GramBot:
 
 if __name__ == '__main__':
 
-    mysheet = GSheet("private.json", "Geekahol Followers")
-
     if len(sys.argv) > 1:
 
         username = sys.argv[1]
@@ -104,7 +104,12 @@ if __name__ == '__main__':
 
         #bot.get_unfollowed()
 
-        print(bot.get_follower_count())
+        follower_count = bot.get_follower_count()
+        mysheet = GSheet("private.json", "Geekahol Followers")
+        pprint(mysheet.sheet.get_all_records())
+        mysheet.sheet.append_row([datetime.now().strftime("%m/%d/%Y %H:%M:%S"), follower_count])
+        print(follower_count)
+
         bot.follow_suggested()
 
         bot.close_browser()
