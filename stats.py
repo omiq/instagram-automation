@@ -70,8 +70,8 @@ if __name__ == '__main__':
 
         for match in matches:
             pprint(list(match.values()))
-            sql = ''' INSERT INTO stats(rowid,event_id,Date,Event,Placing,Faction,GA,Use,GamesPlayed,NumberofWins,Player,FactionKey)
-                                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?) '''
+            sql = ''' INSERT INTO stats(event_id,Date,Event,Placing,Faction,GA,Use,GamesPlayed,NumberofWins,Player,FactionKey)
+                                 VALUES(?,?,?,?,?,?,?,?,?,?,?) '''
             cur = conn.cursor()
             cur.execute(sql, list(match.values()))
 
