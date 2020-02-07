@@ -83,6 +83,8 @@ class GramBot:
         followers = self._get_names()
         not_following_back = [user for user in following if user not in followers]
         to_unfollow = [user for user in not_following_back if user not in white_list]
+        to_unfollow.reverse()
+
         return to_unfollow
 
     def _get_names(self):
@@ -108,7 +110,7 @@ class GramBot:
         for user in list_of_users:
             print("\n\n" + user)
             self.driver.get("https://www.instagram.com/" + user)
-            sleep(2)
+            sleep(60)
 
             is_verified = self.driver.find_elements_by_class_name("coreSpriteVerifiedBadge")
             pprint(is_verified)
@@ -121,7 +123,7 @@ class GramBot:
                 self.driver.find_element_by_xpath('//button[text()="Unfollow"]') \
                     .click()
                 print(" *Unfollowed* ")
-                sleep(20)
+                sleep(35)
 
     def close_browser(self):
         self.driver.quit()
